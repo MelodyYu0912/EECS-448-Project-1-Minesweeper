@@ -59,6 +59,12 @@ h=2
 b=1
 incorrect = True
 
+# soundEffect
+winSound = pygame.mixer.Sound("soundEffects/Applause.wav")
+loseSound = pygame.mixer.Sound("soundEffects/Explosion.wav")
+revealSound = pygame.mixer.Sound("soundEffects/Click.wav")
+flagSound = pygame.mixer.Sound("soundEffects/Ding-flag.wav")
+
 
 while (incorrect == True):
     try:
@@ -145,12 +151,17 @@ while not program_end and gamestate == 0:
                 if(r >= row):
                     r = row - 1
                 exe.gameBoard.reveal_tile(c,r)
+                revealSound.play()
+                revealSound.set_volume(0.1)
 
             elif(event.button == 3):
                 pos = pygame.mouse.get_pos()
                 c = pos[0] // (WIDTH + MARGIN)
                 r = pos[1] // (HEIGHT + MARGIN)
                 exe.gameBoard.flag_tile(c,r)
+                flagSound.play()
+                flagSound.set_volume(0.1)
+
     print_board()
     gamestate = exe.checkWinLose()
 
@@ -162,10 +173,14 @@ if (gamestate == 2):
     loseCase = Tk()
     loseCase.iconbitmap('GUI/MemoryLeakLogo.ico')
     Label(loseCase, text="YOU LOSE!!", ).grid(row=0)
+    loseSound.play()
+    loseSound.set_volume(1.0)
     loseCase.mainloop()
 elif (gamestate == 1):
     winCase = Tk()
     winCase.iconbitmap('GUI/MemoryLeakLogo.ico')
     Label(winCase, text="YOU WIN!!", ).grid(row=0)
+    winSound.play()
+    winSound.set_volume(1.0)
     winCase.mainloop()
 pygame.quit()
